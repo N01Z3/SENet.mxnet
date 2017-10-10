@@ -163,20 +163,20 @@ if __name__ == "__main__":
     parser.add_argument('--wd', type=float, default=0.0001, help='weight decay for sgd')
     parser.add_argument('--batch-size', type=int, default=256, help='the batch size')
     parser.add_argument('--num-group', type=int, default=32, help='the number of convolution groups')
-    parser.add_argument('--drop-out', type=float, default=0.0, help='the probability of an element to be zeroed')
+    parser.add_argument('--drop-out', type=float, default=0.5, help='the probability of an element to be zeroed')
     parser.add_argument('--workspace', type=int, default=512, help='memory space size(MB) used in convolution, if xpu '
                                                                    ' memory is oom, then you can try smaller vale, such as --workspace 256')
     parser.add_argument('--depth', type=int, default=50, help='the depth of resnet')
-    parser.add_argument('--num-classes', type=int, default=1000, help='the class number of your task')
+    parser.add_argument('--num-classes', type=int, default=2531, help='the class number of your task')
     parser.add_argument('--aug-level', type=int, default=1, choices=[1, 2, 3],
                         help='level 1: use only random crop and random mirror\n'
                              'level 2: add scale/aspect/hsv augmentation based on level 1\n'
                              'level 3: add rotation/shear augmentation based on level 2')
-    parser.add_argument('--num-examples', type=int, default=1281167, help='the number of training examples')
+    parser.add_argument('--num-examples', type=int, default=500000, help='the number of training examples')
     parser.add_argument('--kv-store', type=str, default='device', help='the kvstore type')
     parser.add_argument('--model-load-epoch', type=int, default=0,
                         help='load the model on an epoch using the model-load-prefix')
-    parser.add_argument('--frequent', type=int, default=50, help='frequency of logging')
+    parser.add_argument('--frequent', type=int, default=300, help='frequency of logging')
     parser.add_argument('--memonger', action='store_true', default=False,
                         help='true means using memonger to save momory, https://github.com/dmlc/mxnet-memonger')
     parser.add_argument('--retrain', action='store_true', default=False, help='true means continue training')
