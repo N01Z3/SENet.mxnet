@@ -40,7 +40,7 @@ def main():
                         data_type="cifar10", drop_out=args.drop_out, bottle_neck = bottle_neck, bn_mom=args.bn_mom, workspace=args.workspace,
                         memonger=args.memonger)
     elif args.data_type == "imagenet":
-        args.num_classes = 1000
+        args.num_classes = 2531
         if args.depth == 18:
             units = [2, 2, 2, 2]
         elif args.depth == 34:
@@ -82,7 +82,7 @@ def main():
                                                     else (args.batch_size, 3, 224, 224))
     train = mx.io.ImageRecordIter(
         path_imgrec         = os.path.join(args.data_dir, "train.rec") if args.data_type == 'cifar10' else
-                              os.path.join(args.data_dir, "train_256_q90.rec") if args.aug_level == 1
+                              os.path.join(args.data_dir, "trn_cln") if args.aug_level == 1
                               else os.path.join(args.data_dir, "train_480_q90.rec") ,
         label_width         = 1,
         data_name           = 'data',
@@ -106,7 +106,7 @@ def main():
         part_index          = kv.rank)
     val = mx.io.ImageRecordIter(
         path_imgrec         = os.path.join(args.data_dir, "val.rec") if args.data_type == 'cifar10' else
-                              os.path.join(args.data_dir, "val_256_q90.rec"),
+                              os.path.join(args.data_dir, "avitonet4k_val"),
         label_width         = 1,
         data_name           = 'data',
         label_name          = 'softmax_label',
@@ -147,7 +147,7 @@ def main():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="command for training resnet-v2")
     parser.add_argument('--gpus', type=str, default='0', help='the gpus will be used, e.g "0,1,2,3"')
-    parser.add_argument('--data-dir', type=str, default='./data/imagenet/', help='the input data directory')
+    parser.add_argument('--data-dir', type=str, default='/media/devbox/storage1/recs2', help='the input data directory')
     parser.add_argument('--data-type', type=str, default='imagenet', help='the dataset type')
     parser.add_argument('--list-dir', type=str, default='./',
                         help='the directory which contain the training list file')
@@ -162,7 +162,7 @@ if __name__ == "__main__":
                         ' memory is oom, then you can try smaller vale, such as --workspace 256')
     parser.add_argument('--depth', type=int, default=50, help='the depth of resnet')
     parser.add_argument('--num-classes', type=int, default=1000, help='the class number of your task')
-    parser.add_argument('--aug-level', type=int, default=2, choices=[1, 2, 3],
+    parser.add_argument('--aug-level', type=int, default=1, choices=[1, 2, 3],
                         help='level 1: use only random crop and random mirror\n'
                              'level 2: add scale/aspect/hsv augmentation based on level 1\n'
                              'level 3: add rotation/shear augmentation based on level 2')
