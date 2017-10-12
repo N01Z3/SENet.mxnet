@@ -87,8 +87,8 @@ def main():
         else (args.batch_size, 3, 224, 224))
     train = mx.io.ImageRecordIter(
         path_imgrec=os.path.join(args.data_dir, "train.rec") if args.data_type == 'cifar10' else
-        os.path.join(args.data_dir, "trn") if args.aug_level == 1
-        else os.path.join(args.data_dir, "train_480_q90.rec"),
+        os.path.join(args.data_dir, "trn_cln") if args.aug_level == 1
+        else os.path.join(args.data_dir, "trn"),
         label_width=1,
         data_name='data',
         label_name='softmax_label',
