@@ -42,6 +42,7 @@ def main():
                          data_type="cifar10", drop_out=args.drop_out, bottle_neck=bottle_neck, bn_mom=args.bn_mom,
                          workspace=args.workspace,
                          memonger=args.memonger)
+
     elif args.data_type == "imagenet":
         args.num_classes = 2531
         if args.depth == 18:
@@ -86,7 +87,7 @@ def main():
         else (args.batch_size, 3, 224, 224))
     train = mx.io.ImageRecordIter(
         path_imgrec=os.path.join(args.data_dir, "train.rec") if args.data_type == 'cifar10' else
-        os.path.join(args.data_dir, "trn_cln") if args.aug_level == 1
+        os.path.join(args.data_dir, "trn") if args.aug_level == 1
         else os.path.join(args.data_dir, "train_480_q90.rec"),
         label_width=1,
         data_name='data',
@@ -97,7 +98,7 @@ def main():
         fill_value=127,  # only used when pad is valid
         rand_crop=True,
         max_random_scale=1.0,  # 480 with imagnet, 32 with cifar10
-        min_random_scale=1.0 if args.data_type == "cifar10" else 1.0 if args.aug_level == 1 else 0.533,
+        min_random_scale=1.0 if args.data_type == "cifar10" else 1.0 if args.aug_level == 1 else 0.62,
         # 256.0/480.0=0.533, 256.0/384.0=0.667 256.0/256=1.0
         max_aspect_ratio=0 if args.data_type == "cifar10" else 0 if args.aug_level == 1 else 0.25,  # 0.25
         random_h=0 if args.data_type == "cifar10" else 0 if args.aug_level == 1 else 36,  # 0.4*90
@@ -153,7 +154,7 @@ def main():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="command for training resnet-v2")
     parser.add_argument('--gpus', type=str, default='0', help='the gpus will be used, e.g "0,1,2,3"')
-    parser.add_argument('--data-dir', type=str, default='/media/devbox/storage1/recs', help='the input data directory')
+    parser.add_argument('--data-dir', type=str, default='/media/devbox/storage1/recs2', help='the input data directory')
     parser.add_argument('--data-type', type=str, default='imagenet', help='the dataset type')
     parser.add_argument('--list-dir', type=str, default='./',
                         help='the directory which contain the training list file')
